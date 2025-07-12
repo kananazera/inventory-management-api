@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: Inventory Management System
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventory
+    username: admin
+    password: admin
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  security:
+    user:
+      name: user
+      password: 1234
