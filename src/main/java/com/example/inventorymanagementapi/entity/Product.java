@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "products")
@@ -28,6 +29,10 @@ public class Product {
 
     private BigDecimal price;
 
+    private LocalDate manufactureDate;
+
+    private LocalDate expiryDate;
+
     private Boolean active = true;
 
     @ManyToOne
@@ -37,4 +42,8 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private ProductBrand brand;
+
+    @ManyToOne
+    @JoinColumn(name = "unit_id")
+    private ProductUnit unit;
 }
