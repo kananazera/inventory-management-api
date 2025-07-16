@@ -23,7 +23,7 @@ public class Notification {
     @Column(length = 1000)
     private String message;
 
-    private Boolean read = false;
+    private Boolean read;
 
     private LocalDateTime createdAt;
 

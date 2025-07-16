@@ -19,7 +19,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Column(unique = true)
@@ -27,6 +27,7 @@ public class Product {
 
     private String description;
 
+    @Column(nullable = false)
     private BigDecimal price;
 
     private LocalDate manufactureDate;

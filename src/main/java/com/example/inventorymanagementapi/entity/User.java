@@ -1,8 +1,12 @@
 package com.example.inventorymanagementapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -32,10 +36,16 @@ public class User {
 
     private String phone;
 
-    private boolean enabled;
+    private String gender;
 
+    @Column(name = "birth_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private String birthDate;
+
+    @Column(name = "created_at", updatable = false, nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 }
-

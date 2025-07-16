@@ -12,7 +12,6 @@ spring:
       ddl-auto: update
     show-sql: true
 
-  security:
-    user:
-      name: user
-      password: 1234
+jwt:
+  secret: your-256-bit-secret-key-should-be-long-enough
+  expiration: 3600000
