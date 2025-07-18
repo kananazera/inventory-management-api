@@ -12,11 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WarehouseTransfer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class WarehouseTransfer extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

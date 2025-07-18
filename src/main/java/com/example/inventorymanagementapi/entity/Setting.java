@@ -10,11 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Setting {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Setting extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String key;

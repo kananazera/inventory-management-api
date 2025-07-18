@@ -1,4 +1,4 @@
-package com.example.inventorymanagementapi.dto;
+package com.example.inventorymanagementapi.dto.product;
 
 import lombok.*;
 

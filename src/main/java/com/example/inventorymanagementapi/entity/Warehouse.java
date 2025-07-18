@@ -10,11 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Warehouse {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Warehouse extends BaseEntity {
 
     @Column(nullable = false)
     private String name;

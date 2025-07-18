@@ -10,11 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentType {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class PaymentType extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String name;

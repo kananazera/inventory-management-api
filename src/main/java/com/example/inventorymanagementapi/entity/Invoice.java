@@ -13,11 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Invoice {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Invoice extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String invoiceNumber;

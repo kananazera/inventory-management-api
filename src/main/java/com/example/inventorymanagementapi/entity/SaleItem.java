@@ -12,11 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SaleItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class SaleItem extends BaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "sale_id")

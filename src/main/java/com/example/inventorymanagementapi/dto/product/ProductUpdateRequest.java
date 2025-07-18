@@ -1,4 +1,4 @@
-package com.example.inventorymanagementapi.dto;
+package com.example.inventorymanagementapi.dto.product;
 
 import lombok.*;
 
@@ -10,15 +10,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductFilterRequest {
-
+public class ProductUpdateRequest {
     private String name;
+    private String description;
     private BigDecimal price;
     private String sku;
+    private LocalDate manufactureDate;
+    private LocalDate expiryDate;
+    private Boolean active;
     private Long categoryId;
     private Long brandId;
     private Long unitId;
-    private Boolean active;
-    private BigDecimal minPrice;
-    private BigDecimal maxPrice;
 }

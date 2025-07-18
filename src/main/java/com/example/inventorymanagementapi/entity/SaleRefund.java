@@ -13,11 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SaleRefund {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class SaleRefund extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "sale_id", nullable = false)

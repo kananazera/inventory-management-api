@@ -10,11 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Inventory {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Inventory extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

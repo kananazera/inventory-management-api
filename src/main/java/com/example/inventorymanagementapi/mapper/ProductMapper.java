@@ -1,7 +1,7 @@
 package com.example.inventorymanagementapi.mapper;
 
-import com.example.inventorymanagementapi.dto.ProductCreateRequest;
-import com.example.inventorymanagementapi.dto.ProductResponse;
+import com.example.inventorymanagementapi.dto.product.ProductCreateRequest;
+import com.example.inventorymanagementapi.dto.product.ProductResponse;
 import com.example.inventorymanagementapi.entity.*;
 
 public class ProductMapper {

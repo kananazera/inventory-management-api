@@ -14,11 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Purchase {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Purchase extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = false)

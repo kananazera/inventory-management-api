@@ -11,11 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Supplier {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Supplier extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

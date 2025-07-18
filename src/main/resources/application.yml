@@ -9,9 +9,16 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
 jwt:
-  secret: your-256-bit-secret-key-should-be-long-enough
+  secret:
   expiration: 3600000

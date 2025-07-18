@@ -1,9 +1,9 @@
 package com.example.inventorymanagementapi.service;
 
-import com.example.inventorymanagementapi.dto.ProductFilterRequest;
-import com.example.inventorymanagementapi.dto.ProductCreateRequest;
-import com.example.inventorymanagementapi.dto.ProductResponse;
-import com.example.inventorymanagementapi.dto.ProductUpdateRequest;
+import com.example.inventorymanagementapi.dto.product.ProductFilterRequest;
+import com.example.inventorymanagementapi.dto.product.ProductCreateRequest;
+import com.example.inventorymanagementapi.dto.product.ProductResponse;
+import com.example.inventorymanagementapi.dto.product.ProductUpdateRequest;
 
 import java.util.List;
 
