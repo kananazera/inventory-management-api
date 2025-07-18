@@ -17,6 +17,8 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Boolean deleted = Boolean.FALSE;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

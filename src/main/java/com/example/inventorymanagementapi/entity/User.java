@@ -30,13 +30,15 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    private String phone;
+
     private String firstName;
 
     private String lastName;
 
-    private String phone;
-
     private String gender;
 
     private LocalDate birthDate;
+
+    private Boolean active = Boolean.TRUE;
 }

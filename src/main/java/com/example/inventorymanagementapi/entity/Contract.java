@@ -23,8 +23,6 @@ public class Contract extends BaseEntity {
 
     private LocalDate endDate;
 
-    private Boolean active;
-
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;

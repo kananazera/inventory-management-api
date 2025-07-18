@@ -22,10 +22,7 @@ public class ProductCreateRequest {
     private String sku;
     private LocalDate manufactureDate;
     private LocalDate expiryDate;
-
-    @Builder.Default
-    private Boolean active = true;
-
+    private Boolean active;
     private Long categoryId;
     private Long brandId;
     private Long unitId;

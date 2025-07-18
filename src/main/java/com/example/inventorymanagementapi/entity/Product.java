@@ -30,7 +30,7 @@ public class Product extends BaseEntity {
 
     private LocalDate expiryDate;
 
-    private Boolean active = true;
+    private Boolean active = Boolean.TRUE;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
