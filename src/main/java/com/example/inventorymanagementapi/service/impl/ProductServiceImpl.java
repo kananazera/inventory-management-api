@@ -1,13 +1,19 @@
 package com.example.inventorymanagementapi.service.impl;
 
-import com.example.inventorymanagementapi.dto.product.ProductFilterRequest;
 import com.example.inventorymanagementapi.dto.product.ProductCreateRequest;
+import com.example.inventorymanagementapi.dto.product.ProductFilterRequest;
 import com.example.inventorymanagementapi.dto.product.ProductResponse;
 import com.example.inventorymanagementapi.dto.product.ProductUpdateRequest;
-import com.example.inventorymanagementapi.entity.*;
+import com.example.inventorymanagementapi.entity.Product;
+import com.example.inventorymanagementapi.entity.ProductBrand;
+import com.example.inventorymanagementapi.entity.ProductCategory;
+import com.example.inventorymanagementapi.entity.ProductUnit;
 import com.example.inventorymanagementapi.exception.ResourceNotFoundException;
 import com.example.inventorymanagementapi.mapper.ProductMapper;
-import com.example.inventorymanagementapi.repository.*;
+import com.example.inventorymanagementapi.repository.ProductBrandRepository;
+import com.example.inventorymanagementapi.repository.ProductCategoryRepository;
+import com.example.inventorymanagementapi.repository.ProductRepository;
+import com.example.inventorymanagementapi.repository.ProductUnitRepository;
 import com.example.inventorymanagementapi.service.ProductService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -133,8 +139,8 @@ public class ProductServiceImpl implements ProductService {
                 predicates.add(cb.like(cb.lower(root.get("name")), "%" + filterRequest.getName().toLowerCase() + "%"));
             }
 
-            if (filterRequest.getCategoryId() != null) {
-                predicates.add(cb.equal(root.get("category").get("id"), filterRequest.getCategoryId()));
+            if (filterRequest.getCategory() != null) {
+                predicates.add(cb.equal(root.get("category").get("id"), filterRequest.getCategory()));
             }
 
             if (filterRequest.getBrandId() != null) {

@@ -1,20 +1,18 @@
 package com.example.inventorymanagementapi.dto.product;
 
+import com.example.inventorymanagementapi.dto.productcategory.ProductCategoryFilterRequest;
 import lombok.*;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
 public class ProductFilterRequest {
 
     private String name;
     private BigDecimal price;
     private String sku;
-    private Long categoryId;
+    private ProductCategoryFilterRequest category;
     private Long brandId;
     private Long unitId;
     private Boolean active;
