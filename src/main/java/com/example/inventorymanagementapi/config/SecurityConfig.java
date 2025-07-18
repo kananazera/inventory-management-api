@@ -20,7 +20,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/api/products/**",
-                                "/api/product-categories/**"
+                                "/api/product-categories/**",
+                                "/api/product-brands/**",
+                                "/api/product-units/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
