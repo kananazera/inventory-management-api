@@ -12,13 +12,6 @@ spring:
       ddl-auto: create
     show-sql: true
 
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
-
 jwt:
-  secret:
-  expiration: 3600000
+  secret: abCDeFGhIJklMNopQRstUVwxYZ1234567890abcdEFGHijkl
+  expiration-ms: 86400000
