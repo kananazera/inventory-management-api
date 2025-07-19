@@ -12,12 +12,12 @@ import java.time.LocalDate;
 public abstract class BaseUser extends BaseEntity {
 
     @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, unique = true)
     private String fullName;
 
     private String phone;
-
-    @Column(unique = true)
-    private String email;
 
     private String address;
 
