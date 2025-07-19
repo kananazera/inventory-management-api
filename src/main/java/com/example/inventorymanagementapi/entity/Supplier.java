@@ -11,18 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Supplier extends BaseEntity {
+public class Supplier extends BaseUser {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContactType type;
-
-    @Column(nullable = false, unique = true)
-    private String name;
-
-    private String phone;
-
-    private String email;
-
-    private String address;
 }
