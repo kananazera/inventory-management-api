@@ -1,5 +1,6 @@
 package com.example.inventorymanagementapi.entity;
 
+import com.example.inventorymanagementapi.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public abstract class BaseUser extends BaseEntity {
 
     private String address;
 
-    private String gender;
+    private Gender gender;
 
     private LocalDate birthDate;
 
