@@ -26,6 +26,10 @@ public class Sale extends BaseEntity {
 
     private BigDecimal totalAmount;
 
+    @ManyToOne
+    @JoinColumn(name = "currency_id", nullable = false)
+    private Currency currency;
+
     private LocalDateTime saleDate;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)

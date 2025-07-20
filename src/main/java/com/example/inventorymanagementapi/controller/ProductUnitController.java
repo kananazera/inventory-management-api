@@ -48,9 +48,9 @@ public class ProductUnitController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         productUnitService.deleteProductUnit(id);
-        return ResponseEntity.noContent().build();
+        ResponseEntity.ok("Product unit deleted successfully");
     }
 
     @PostMapping("/filter")

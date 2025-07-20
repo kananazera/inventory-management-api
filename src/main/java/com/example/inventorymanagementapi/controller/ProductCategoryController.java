@@ -48,9 +48,9 @@ public class ProductCategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         productCategoryService.deleteProductCategory(id);
-        return ResponseEntity.noContent().build();
+        ResponseEntity.ok("Product category deleted successfully");
     }
 
     @PostMapping("/filter")

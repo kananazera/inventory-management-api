@@ -26,6 +26,9 @@ public class ProductUnitServiceImpl implements ProductUnitService {
 
     @Override
     public ProductUnitResponse createProductUnit(ProductUnitCreateRequest request) {
+        if (productUnitRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new RuntimeException("Product unit name already exists");
+        }
         ProductUnit Unit = ProductUnitMapper.toEntity(request);
         return ProductUnitMapper.toResponse(productUnitRepository.save(Unit));
     }
@@ -34,6 +37,10 @@ public class ProductUnitServiceImpl implements ProductUnitService {
     public ProductUnitResponse updateProductUnit(Long id, ProductUnitUpdateRequest request) {
         ProductUnit Unit = productUnitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Unit not found with id: " + id));
+
+        if (productUnitRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
+            throw new RuntimeException("Product unit name already exists");
+        }
 
         if (request.getName() != null) {
             Unit.setName(request.getName());

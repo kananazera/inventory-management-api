@@ -35,6 +35,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse createProduct(ProductCreateRequest request) {
+        if (productRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new RuntimeException("Product name already exists");
+        }
         ProductCategory category = null;
         if (request.getCategoryId() != null) {
             category = categoryRepository.findById(request.getCategoryId())
@@ -61,6 +64,10 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse updateProduct(Long id, ProductUpdateRequest request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
+
+        if (productRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
+            throw new RuntimeException("Product name already exists");
+        }
 
         if (request.getName() != null) {
             product.setName(request.getName());

@@ -18,14 +18,11 @@ public class Currency extends BaseEntity {
     @Column(nullable = false, unique = true, length = 3)
     private String code;
 
+    @Column(unique = true)
+    private Character symbol;
+
     @Column(nullable = false)
     private String name;
-
-    @Column(precision = 19, scale = 6)
-    private BigDecimal rate;
-
-    @Column(nullable = false)
-    private LocalDate date;
 
     @Column(nullable = false)
     private Boolean isDefault = Boolean.FALSE;

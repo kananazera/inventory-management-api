@@ -48,9 +48,9 @@ public class ProductBrandController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         productBrandService.deleteProductBrand(id);
-        return ResponseEntity.noContent().build();
+        ResponseEntity.ok("Product brand deleted successfully");
     }
 
     @PostMapping("/filter")

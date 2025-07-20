@@ -50,7 +50,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         productService.deleteProduct(id);
-        ResponseEntity.noContent().build();
+        ResponseEntity.ok("Product deleted successfully");
     }
 
     @PostMapping("/filter")

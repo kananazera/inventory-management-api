@@ -26,6 +26,9 @@ public class ProductBrandServiceImpl implements ProductBrandService {
 
     @Override
     public ProductBrandResponse createProductBrand(ProductBrandCreateRequest request) {
+        if (productBrandRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new RuntimeException("Product brand name already exists");
+        }
         ProductBrand Brand = ProductBrandMapper.toEntity(request);
         return ProductBrandMapper.toResponse(productBrandRepository.save(Brand));
     }
@@ -34,6 +37,10 @@ public class ProductBrandServiceImpl implements ProductBrandService {
     public ProductBrandResponse updateProductBrand(Long id, ProductBrandUpdateRequest request) {
         ProductBrand Brand = productBrandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Brand not found with id: " + id));
+
+        if (productBrandRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
+            throw new RuntimeException("Product brand name already exists");
+        }
 
         if (request.getName() != null) {
             Brand.setName(request.getName());

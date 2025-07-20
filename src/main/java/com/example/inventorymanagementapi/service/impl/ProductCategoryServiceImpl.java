@@ -26,6 +26,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public ProductCategoryResponse createProductCategory(ProductCategoryCreateRequest request) {
+        if (productCategoryRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new RuntimeException("Product category name already exists");
+        }
         ProductCategory category = ProductCategoryMapper.toEntity(request);
         return ProductCategoryMapper.toResponse(productCategoryRepository.save(category));
     }
@@ -34,6 +37,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public ProductCategoryResponse updateProductCategory(Long id, ProductCategoryUpdateRequest request) {
         ProductCategory category = productCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Category not found with id: " + id));
+
+        if (productCategoryRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
+            throw new RuntimeException("Product category name already exists");
+        }
 
         if (request.getName() != null) {
             category.setName(request.getName());
