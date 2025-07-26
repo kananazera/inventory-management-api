@@ -1,5 +1,8 @@
 package com.example.inventorymanagementapi.dto.product;
 
+import com.example.inventorymanagementapi.entity.ProductBrand;
+import com.example.inventorymanagementapi.entity.ProductCategory;
+import com.example.inventorymanagementapi.entity.ProductUnit;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -13,10 +16,9 @@ public class ProductResponse {
     private String description;
     private BigDecimal price;
     private String sku;
-    private LocalDate manufactureDate;
-    private LocalDate expiryDate;
     private Boolean active;
-    private String categoryName;
-    private String brandName;
-    private String unitName;
+    private ProductCategory category;
+    private ProductBrand brand;
+    private ProductUnit unit;
+    private String imageUrl;
 }

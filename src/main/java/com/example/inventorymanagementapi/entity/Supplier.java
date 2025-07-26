@@ -1,8 +1,11 @@
 package com.example.inventorymanagementapi.entity;
 
 import com.example.inventorymanagementapi.enums.ContactType;
+import com.example.inventorymanagementapi.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "suppliers")
@@ -11,7 +14,27 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Supplier extends BaseUser {
+public class Supplier {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, unique = true)
+    private String fullName;
+
+    private String phone;
+
+    private String address;
+
+    private Gender gender;
+
+    private LocalDate birthDate;
+
+    private Boolean active = Boolean.TRUE;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

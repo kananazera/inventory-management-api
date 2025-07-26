@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ProductUnitFilterRequest {
+
     private String name;
 }

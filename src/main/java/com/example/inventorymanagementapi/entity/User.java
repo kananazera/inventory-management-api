@@ -1,8 +1,10 @@
 package com.example.inventorymanagementapi.entity;
 
+import com.example.inventorymanagementapi.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -12,13 +14,34 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User extends BaseUser {
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    private String fullName;
+
+    private String phone;
+
+    private String address;
+
+    private Gender gender;
+
+    private LocalDate birthDate;
+
+    private Boolean active = Boolean.TRUE;
+
+    private String photoUrl;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

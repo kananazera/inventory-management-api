@@ -13,17 +13,18 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Currency extends BaseEntity {
+public class Currency {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 3)
     private String code;
 
-    @Column(unique = true)
-    private Character symbol;
-
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
-    private Boolean isDefault = Boolean.FALSE;
+    private Character symbol;
 }

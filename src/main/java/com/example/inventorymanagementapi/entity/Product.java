@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "products")
@@ -13,7 +12,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product extends BaseEntity {
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String name;
@@ -25,10 +28,6 @@ public class Product extends BaseEntity {
 
     @Column(nullable = false)
     private BigDecimal price;
-
-    private LocalDate manufactureDate;
-
-    private LocalDate expiryDate;
 
     private Boolean active = Boolean.TRUE;
 
@@ -43,4 +42,6 @@ public class Product extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "unit_id")
     private ProductUnit unit;
+
+    private String imageUrl;
 }

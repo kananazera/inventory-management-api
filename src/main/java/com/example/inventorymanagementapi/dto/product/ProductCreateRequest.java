@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ProductCreateRequest {
+
     @NotNull(message = "Name is required")
     private String name;
 
@@ -20,8 +21,6 @@ public class ProductCreateRequest {
     private BigDecimal price;
 
     private String sku;
-    private LocalDate manufactureDate;
-    private LocalDate expiryDate;
     private Boolean active;
     private Long categoryId;
     private Long brandId;

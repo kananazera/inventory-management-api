@@ -12,6 +12,9 @@ spring:
       ddl-auto: create
     show-sql: true
 
+  profiles:
+    active: dev
+
 jwt:
   secret: abCDeFGhIJklMNopQRstUVwxYZ1234567890abcdEFGHijkl
   expiration-ms: 86400000
