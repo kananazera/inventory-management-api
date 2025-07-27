@@ -12,6 +12,8 @@ import com.example.inventorymanagementapi.repository.RoleRepository;
 import com.example.inventorymanagementapi.repository.UserRepository;
 import com.example.inventorymanagementapi.service.FileStorageService;
 import com.example.inventorymanagementapi.service.UserService;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -175,8 +177,32 @@ public class UserServiceImpl implements UserService {
                         "%" + filterRequest.getEmail().toLowerCase() + "%"));
             }
 
+            if (filterRequest.getFullName() != null && !filterRequest.getFullName().isBlank()) {
+                predicates.add(cb.like(cb.lower(root.get("fullName")),
+                        "%" + filterRequest.getFullName().toLowerCase() + "%"));
+            }
+
+            if (filterRequest.getPhone() != null && !filterRequest.getPhone().isBlank()) {
+                predicates.add(cb.like(cb.lower(root.get("phone")),
+                        "%" + filterRequest.getPhone().toLowerCase() + "%"));
+            }
+
+            if (filterRequest.getGender() != null) {
+                predicates.add(cb.equal(root.get("gender"), filterRequest.getGender()));
+            }
+
+            if (filterRequest.getBirthDate() != null) {
+                predicates.add(cb.equal(root.get("birthDate"), filterRequest.getBirthDate()));
+            }
+
             if (filterRequest.getActive() != null) {
                 predicates.add(cb.equal(root.get("active"), filterRequest.getActive()));
+            }
+
+            if (filterRequest.getRoles() != null && !filterRequest.getRoles().isEmpty()) {
+                Join<User, Role> roleJoin = root.join("roles", JoinType.INNER);
+                predicates.add(roleJoin.get("id").in(filterRequest.getRoles()));
+                query.distinct(true);
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

@@ -17,7 +17,6 @@ public class UserFilterRequest {
     private String email;
     private String fullName;
     private String phone;
-    private String address;
     private Gender gender;
     private LocalDate birthDate;
     private Boolean active = Boolean.TRUE;
