@@ -17,7 +17,7 @@ public interface ProductBrandService {
 
     ProductBrandResponse getProductBrandById(Long id);
 
-    List<ProductBrandResponse> getAllProductCategories();
+    List<ProductBrandResponse> getAllProductBrands();
 
-    List<ProductBrandResponse> filterProductCategories(ProductBrandFilterRequest filterRequest);
+    List<ProductBrandResponse> filterProductBrands(ProductBrandFilterRequest filterRequest);
 }

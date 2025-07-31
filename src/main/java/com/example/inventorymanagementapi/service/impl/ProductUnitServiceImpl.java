@@ -64,14 +64,14 @@ public class ProductUnitServiceImpl implements ProductUnitService {
     }
 
     @Override
-    public List<ProductUnitResponse> getAllProductCategories() {
+    public List<ProductUnitResponse> getAllProductUnits() {
         return productUnitRepository.findAll().stream()
                 .map(ProductUnitMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductUnitResponse> filterProductCategories(ProductUnitFilterRequest filterRequest) {
+    public List<ProductUnitResponse> filterProductUnits(ProductUnitFilterRequest filterRequest) {
         Specification<ProductUnit> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 

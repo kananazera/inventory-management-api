@@ -37,7 +37,7 @@ public class ProductBrandController {
 
     @GetMapping
     public ResponseEntity<List<ProductBrandResponse>> getAll() {
-        List<ProductBrandResponse> list = productBrandService.getAllProductCategories();
+        List<ProductBrandResponse> list = productBrandService.getAllProductBrands();
         return ResponseEntity.ok(list);
     }
 
@@ -55,7 +55,7 @@ public class ProductBrandController {
 
     @PostMapping("/filter")
     public ResponseEntity<List<ProductBrandResponse>> filter(@RequestBody ProductBrandFilterRequest filterRequest) {
-        List<ProductBrandResponse> list = productBrandService.filterProductCategories(filterRequest);
+        List<ProductBrandResponse> list = productBrandService.filterProductBrands(filterRequest);
         return ResponseEntity.ok(list);
     }
 }

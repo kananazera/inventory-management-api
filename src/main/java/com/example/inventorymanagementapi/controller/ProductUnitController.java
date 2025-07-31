@@ -37,7 +37,7 @@ public class ProductUnitController {
 
     @GetMapping
     public ResponseEntity<List<ProductUnitResponse>> getAll() {
-        List<ProductUnitResponse> list = productUnitService.getAllProductCategories();
+        List<ProductUnitResponse> list = productUnitService.getAllProductUnits();
         return ResponseEntity.ok(list);
     }
 
@@ -55,7 +55,7 @@ public class ProductUnitController {
 
     @PostMapping("/filter")
     public ResponseEntity<List<ProductUnitResponse>> filter(@RequestBody ProductUnitFilterRequest filterRequest) {
-        List<ProductUnitResponse> list = productUnitService.filterProductCategories(filterRequest);
+        List<ProductUnitResponse> list = productUnitService.filterProductUnits(filterRequest);
         return ResponseEntity.ok(list);
     }
 }

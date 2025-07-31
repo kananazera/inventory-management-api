@@ -64,14 +64,14 @@ public class ProductBrandServiceImpl implements ProductBrandService {
     }
 
     @Override
-    public List<ProductBrandResponse> getAllProductCategories() {
+    public List<ProductBrandResponse> getAllProductBrands() {
         return productBrandRepository.findAll().stream()
                 .map(ProductBrandMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductBrandResponse> filterProductCategories(ProductBrandFilterRequest filterRequest) {
+    public List<ProductBrandResponse> filterProductBrands(ProductBrandFilterRequest filterRequest) {
         Specification<ProductBrand> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 

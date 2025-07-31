@@ -17,7 +17,7 @@ public interface ProductUnitService {
 
     ProductUnitResponse getProductUnitById(Long id);
 
-    List<ProductUnitResponse> getAllProductCategories();
+    List<ProductUnitResponse> getAllProductUnits();
 
-    List<ProductUnitResponse> filterProductCategories(ProductUnitFilterRequest filterRequest);
+    List<ProductUnitResponse> filterProductUnits(ProductUnitFilterRequest filterRequest);
 }
