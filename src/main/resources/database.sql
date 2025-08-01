@@ -8,6 +8,11 @@ VALUES ('admin',
         'kananazera@gmail.com',
         'Kanan Rahimli',
         TRUE);
+VALUES ('kananazera',
+        '$2a$10$BRzsxMP2TSGDHLmyZS/Dde.AcEGwL0NzpBURsEstBumJS9zuiqZPO', -- 12345
+        'kananazera@mail.ru',
+        'Kanan Rahimli',
+        TRUE);
 
 INSERT INTO user_roles (user_id, role_id)
 SELECT u.id, r.id

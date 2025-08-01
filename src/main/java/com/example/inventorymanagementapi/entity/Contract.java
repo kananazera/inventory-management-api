@@ -27,6 +27,8 @@ public class Contract {
 
     private LocalDate endDate;
 
+    private String contractFile;
+
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;

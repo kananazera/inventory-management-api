@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "suppliers")
@@ -39,4 +40,7 @@ public class Supplier {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContactType type;
+
+    @OneToMany(mappedBy = "supplier")
+    private List<Contract> contracts;
 }
