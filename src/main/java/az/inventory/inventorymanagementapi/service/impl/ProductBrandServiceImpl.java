@@ -1,0 +1,89 @@
+package az.inventory.inventorymanagementapi.service.impl;
+
+import az.inventory.inventorymanagementapi.dto.productbrand.ProductBrandCreateRequest;
+import az.inventory.inventorymanagementapi.dto.productbrand.ProductBrandFilterRequest;
+import az.inventory.inventorymanagementapi.dto.productbrand.ProductBrandResponse;
+import az.inventory.inventorymanagementapi.dto.productbrand.ProductBrandUpdateRequest;
+import az.inventory.inventorymanagementapi.entity.ProductBrand;
+import az.inventory.inventorymanagementapi.exception.ResourceNotFoundException;
+import az.inventory.inventorymanagementapi.mapper.ProductBrandMapper;
+import az.inventory.inventorymanagementapi.repository.ProductBrandRepository;
+import az.inventory.inventorymanagementapi.service.ProductBrandService;
+import jakarta.persistence.criteria.Predicate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ProductBrandServiceImpl implements ProductBrandService {
+
+    private final ProductBrandRepository productBrandRepository;
+
+    @Override
+    public ProductBrandResponse createProductBrand(ProductBrandCreateRequest request) {
+        if (productBrandRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new RuntimeException("Product brand name already exists");
+        }
+        ProductBrand Brand = ProductBrandMapper.toEntity(request);
+        return ProductBrandMapper.toResponse(productBrandRepository.save(Brand));
+    }
+
+    @Override
+    public ProductBrandResponse updateProductBrand(Long id, ProductBrandUpdateRequest request) {
+        ProductBrand Brand = productBrandRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Brand not found with id: " + id));
+
+        if (productBrandRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
+            throw new RuntimeException("Product brand name already exists");
+        }
+
+        if (request.getName() != null) {
+            Brand.setName(request.getName());
+        }
+
+        return ProductBrandMapper.toResponse(productBrandRepository.save(Brand));
+    }
+
+    @Override
+    public void deleteProductBrand(Long id) {
+        ProductBrand Brand = productBrandRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Brand not found with id: " + id));
+        productBrandRepository.delete(Brand);
+    }
+
+    @Override
+    public ProductBrandResponse getProductBrandById(Long id) {
+        ProductBrand Brand = productBrandRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Brand not found with id: " + id));
+        return ProductBrandMapper.toResponse(Brand);
+    }
+
+    @Override
+    public List<ProductBrandResponse> getAllProductBrands() {
+        return productBrandRepository.findAll().stream()
+                .map(ProductBrandMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductBrandResponse> filterProductBrands(ProductBrandFilterRequest filterRequest) {
+        Specification<ProductBrand> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (filterRequest.getName() != null && !filterRequest.getName().isBlank()) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + filterRequest.getName().toLowerCase() + "%"));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return productBrandRepository.findAll(spec).stream()
+                .map(ProductBrandMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+}

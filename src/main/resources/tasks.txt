@@ -3,3 +3,9 @@
 3. pagination
 4. send email
 5. language
+6. currency convertor
+7. rename base package
+
+next step
+1. contracts
+2. purchase

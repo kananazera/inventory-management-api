@@ -1,0 +1,89 @@
+package az.inventory.inventorymanagementapi.service.impl;
+
+import az.inventory.inventorymanagementapi.dto.productcategory.ProductCategoryCreateRequest;
+import az.inventory.inventorymanagementapi.dto.productcategory.ProductCategoryFilterRequest;
+import az.inventory.inventorymanagementapi.dto.productcategory.ProductCategoryResponse;
+import az.inventory.inventorymanagementapi.dto.productcategory.ProductCategoryUpdateRequest;
+import az.inventory.inventorymanagementapi.entity.ProductCategory;
+import az.inventory.inventorymanagementapi.exception.ResourceNotFoundException;
+import az.inventory.inventorymanagementapi.mapper.ProductCategoryMapper;
+import az.inventory.inventorymanagementapi.repository.ProductCategoryRepository;
+import az.inventory.inventorymanagementapi.service.ProductCategoryService;
+import jakarta.persistence.criteria.Predicate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ProductCategoryServiceImpl implements ProductCategoryService {
+
+    private final ProductCategoryRepository productCategoryRepository;
+
+    @Override
+    public ProductCategoryResponse createProductCategory(ProductCategoryCreateRequest request) {
+        if (productCategoryRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new RuntimeException("Product category name already exists");
+        }
+        ProductCategory category = ProductCategoryMapper.toEntity(request);
+        return ProductCategoryMapper.toResponse(productCategoryRepository.save(category));
+    }
+
+    @Override
+    public ProductCategoryResponse updateProductCategory(Long id, ProductCategoryUpdateRequest request) {
+        ProductCategory category = productCategoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Category not found with id: " + id));
+
+        if (productCategoryRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
+            throw new RuntimeException("Product category name already exists");
+        }
+
+        if (request.getName() != null) {
+            category.setName(request.getName());
+        }
+
+        return ProductCategoryMapper.toResponse(productCategoryRepository.save(category));
+    }
+
+    @Override
+    public void deleteProductCategory(Long id) {
+        ProductCategory category = productCategoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Category not found with id: " + id));
+        productCategoryRepository.delete(category);
+    }
+
+    @Override
+    public ProductCategoryResponse getProductCategoryById(Long id) {
+        ProductCategory category = productCategoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Category not found with id: " + id));
+        return ProductCategoryMapper.toResponse(category);
+    }
+
+    @Override
+    public List<ProductCategoryResponse> getAllProductCategories() {
+        return productCategoryRepository.findAll().stream()
+                .map(ProductCategoryMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductCategoryResponse> filterProductCategories(ProductCategoryFilterRequest filterRequest) {
+        Specification<ProductCategory> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (filterRequest.getName() != null && !filterRequest.getName().isBlank()) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + filterRequest.getName().toLowerCase() + "%"));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return productCategoryRepository.findAll(spec).stream()
+                .map(ProductCategoryMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+}

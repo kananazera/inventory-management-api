@@ -1,4 +1,4 @@
-package com.example.inventorymanagementapi;
+package az.inventory.inventorymanagementapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
