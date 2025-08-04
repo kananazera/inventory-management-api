@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
         String photoUrl = null;
         if (photo != null && !photo.isEmpty()) {
-            photoUrl = fileStorageService.storeFile(photo);
+            photoUrl = fileStorageService.storeImageFile("users", photo); // 🔁 Yalnız bir dəfə istifadə
         }
 
         Set<Role> roles = roleRepository.findAllById(request.getRoles()).stream()
@@ -64,11 +64,6 @@ public class UserServiceImpl implements UserService {
 
         User user = UserMapper.toEntity(request, photoUrl, roles);
         user.setPassword(encodedPassword);
-
-        String imageUrl = null;
-        if (photo != null && !photo.isEmpty()) {
-            imageUrl = fileStorageService.storeFile(photo);
-        }
 
         return UserMapper.toResponse(userRepository.save(user));
     }
@@ -117,8 +112,8 @@ public class UserServiceImpl implements UserService {
         }
 
         if (photo != null && !photo.isEmpty()) {
-            deletePhotoFile(user.getPhotoUrl());
-            String imageUrl = fileStorageService.storeFile(photo);
+            fileStorageService.deleteFile(user.getPhotoUrl());
+            String imageUrl = fileStorageService.storeImageFile("users", photo);
             user.setPhotoUrl(imageUrl);
         }
 
@@ -143,7 +138,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
-        deletePhotoFile(user.getPhotoUrl());
+        fileStorageService.deleteFile(user.getPhotoUrl());
 
         userRepository.delete(user);
     }
@@ -211,17 +206,5 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(spec).stream()
                 .map(UserMapper::toResponse)
                 .collect(Collectors.toList());
-    }
-
-    private void deletePhotoFile(String photoUrl) {
-        if (photoUrl == null || photoUrl.isBlank()) return;
-
-        try {
-            String filename = photoUrl.substring(photoUrl.lastIndexOf("/") + 1);
-            Path filePath = Paths.get(fileStorageService.getUploadDir(), filename);
-            Files.deleteIfExists(filePath);
-        } catch (Exception e) {
-            System.err.println("Could not delete file: " + photoUrl + " -> " + e.getMessage());
-        }
     }
 }

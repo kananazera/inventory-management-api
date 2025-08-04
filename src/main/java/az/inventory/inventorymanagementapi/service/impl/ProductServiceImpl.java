@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
         String imageUrl = null;
         if (image != null && !image.isEmpty()) {
-            imageUrl = fileStorageService.storeFile(image);
+            imageUrl = fileStorageService.storeImageFile("products", image);
         }
 
         Product product = ProductMapper.toEntity(request, category, brand, unit, imageUrl);
@@ -79,8 +79,8 @@ public class ProductServiceImpl implements ProductService {
         if (request.getUnitId() != null) product.setUnit(getUnit(request.getUnitId()));
 
         if (image != null && !image.isEmpty()) {
-            deleteImageFile(product.getImageUrl());
-            String imageUrl = fileStorageService.storeFile(image);
+            fileStorageService.deleteFile(product.getImageUrl());
+            String imageUrl = fileStorageService.storeImageFile("products", image);
             product.setImageUrl(imageUrl);
         }
 
@@ -92,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
-        deleteImageFile(product.getImageUrl());
+        fileStorageService.deleteFile(product.getImageUrl());
 
         productRepository.delete(product);
     }
@@ -162,17 +162,5 @@ public class ProductServiceImpl implements ProductService {
         if (id == null) return null;
         return unitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unit not found with id: " + id));
-    }
-
-    private void deleteImageFile(String imageUrl) {
-        if (imageUrl == null || imageUrl.isBlank()) return;
-
-        try {
-            String filename = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-            Path filePath = Paths.get(fileStorageService.getUploadDir(), filename);
-            Files.deleteIfExists(filePath);
-        } catch (Exception e) {
-            System.err.println("Could not delete file: " + imageUrl + " -> " + e.getMessage());
-        }
     }
 }

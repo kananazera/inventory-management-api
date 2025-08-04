@@ -129,8 +129,6 @@ VALUES ('AZN', '₼', 'Azərbaycan Manatı'),
 
 INSERT INTO settings (key, value, description)
 VALUES ('default_currency', '₼', 'Standart valyuta'),
-       ('base_backend_url', 'http://localhost:8080', 'Əsas backend ünvanı'),
-       ('app_url', 'http://localhost:3000', 'Proqramın ünvanı'),
        ('app_name', 'Inventory Management System', 'Proqramın adı'),
        ('app_short_name', 'IMS', 'Proqramın qısa adı'),
        ('default_language', 'az', 'Proqramın standart dili'),
