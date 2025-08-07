@@ -1,5 +1,11 @@
+purchase refunds
+sales
+sale refunds
+transactions
+user activity logs
+reports
 security refresh token
-security has role
+security user has role
 email notification
 pagination
 language

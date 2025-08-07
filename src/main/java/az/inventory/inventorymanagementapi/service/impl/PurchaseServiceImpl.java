@@ -68,10 +68,22 @@ public class PurchaseServiceImpl implements PurchaseService {
         // invoice yazmaq
         // transaction yazmaq
 
-        // alislari filter elemek yazmamisam.
-        // eger varsa borcdan odemek
+        // alislari filter elemek yazmaq.
+        // eger varsa borcdan odemek tam ve ya hisseli, (purchase update etmek qaliq borcu.) (payments table dan purchase id ye gore butun odenislere baxmaq)
         // alisin statuslari
-        // alisi legv etmek (mueyyen prosesler gedecek mal qaligi azalmali ve s.)
+        // alisi geri qaytarmaq (mueyyen prosesler gedecek mal qaligi azalmali ve s.)
+
+        // odenilen meblegin deyeri 0 yox placeholder 0 olsun
+        // mehsul secenden sonra vahid qiymet mehsulun enpointinden gelsin amma deyismek olsun
+
+        // inventory bolmesi elave etmek
+        // payments bolmesi elave etmek
+        // invoice bolmesi elave etmek
+        // expense bolmesi elave etmek
+        // odenis meblegi toplam meblegden coxdursa exception atsin
+        // odenis meblegi 0 dan kicikdirse exception atsin
+
+        // sonda butun bu emeliyyatalr @transactional ile aparilsin
 
         return PurchaseMapper.toResponse(savedPurchase);
     }
