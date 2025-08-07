@@ -1,5 +1,6 @@
 package az.inventory.inventorymanagementapi.entity;
 
+import az.inventory.inventorymanagementapi.enums.PaymentStatus;
 import az.inventory.inventorymanagementapi.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +22,7 @@ public class Payment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "purchase_id")
+    @JoinColumn(name = "purchase_i  d")
     private Purchase purchase;
 
     @ManyToOne
@@ -37,7 +38,7 @@ public class Payment {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PaymentType paymentStatus;
+    private PaymentStatus paymentStatus;
 
     @Column(nullable = false)
     private LocalDateTime paymentDate;

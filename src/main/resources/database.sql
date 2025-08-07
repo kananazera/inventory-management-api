@@ -132,4 +132,9 @@ VALUES ('default_currency', '₼', 'Standart valyuta'),
        ('app_name', 'Inventory Management System', 'Proqramın adı'),
        ('app_short_name', 'IMS', 'Proqramın qısa adı'),
        ('default_language', 'az', 'Proqramın standart dili'),
-       ('items_per_page', '50', 'Hər səhifədə məlumat sayı');
+       ('items_per_page', '50', 'Hər səhifədə məlumat sayı'),
+       ('default_markup_rate ', '10', 'Standart qazanc faizi');
+
+INSERT INTO warehouses (name, phone, email, address)
+VALUES ('Nizami', '0501112233', 'nizami@inventory.az', 'C. Cabbarlı 44'),
+       ('Yasamal', '0501224455', 'yasamal@inventory.az', 'Mirəli Qaşqay 148B');

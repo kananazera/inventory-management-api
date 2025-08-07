@@ -3,14 +3,16 @@ package az.inventory.inventorymanagementapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
-@Table(name = "warehouses")
+@Table(name = "taxes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Warehouse {
+public class Tax {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +21,6 @@ public class Warehouse {
     @Column(nullable = false)
     private String name;
 
-    private String phone;
-
-    private String email;
-
-    private String address;
+    @Column(nullable = false)
+    private BigDecimal rate;
 }
-

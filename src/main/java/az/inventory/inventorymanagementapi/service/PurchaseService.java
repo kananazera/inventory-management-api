@@ -1,7 +1,12 @@
 package az.inventory.inventorymanagementapi.service;
 
-import az.inventory.inventorymanagementapi.dto.PurchaseRequest;
+import az.inventory.inventorymanagementapi.dto.purchase.PurchaseCreateRequest;
+import az.inventory.inventorymanagementapi.dto.purchase.PurchaseResponse;
+
+import java.util.List;
 
 public interface PurchaseService {
-    void createPurchase(PurchaseRequest request);
+    PurchaseResponse createPurchase(PurchaseCreateRequest request);
+
+    List<PurchaseResponse> getAllPurchases();
 }

@@ -1,3 +1,10 @@
+#logging:
+#  level:
+#    root: INFO
+#    az.inventory: DEBUG
+#  file:
+#    name: logs/inventory.log
+
 spring:
   application:
     name: Inventory Management System

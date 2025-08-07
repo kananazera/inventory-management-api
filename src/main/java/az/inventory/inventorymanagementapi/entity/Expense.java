@@ -27,9 +27,5 @@ public class Expense {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @ManyToOne
-    @JoinColumn(name = "warehouse_id")
-    private Warehouse warehouse;
-
     private LocalDateTime expenseDate;
 }

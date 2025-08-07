@@ -1,5 +1,5 @@
-refresh token
-user accesses by roles
+security refresh token
+security has role
+email notification
 pagination
-send email
 language

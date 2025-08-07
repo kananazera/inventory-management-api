@@ -20,22 +20,21 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id", nullable = false)
     private Warehouse warehouse;
 
     private BigDecimal totalAmount;
 
-    @ManyToOne
-    @JoinColumn(name = "currency_id", nullable = false)
-    private Currency currency;
+    private BigDecimal paidAmount;
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<PurchaseItem> items;
 
+    @Column(nullable = false)
     private LocalDateTime purchaseDate;
 }
