@@ -138,3 +138,7 @@ VALUES ('default_currency', '₼', 'Standart valyuta'),
 INSERT INTO warehouses (name, phone, email, address)
 VALUES ('Nizami', '0501112233', 'nizami@inventory.az', 'C. Cabbarlı 44'),
        ('Yasamal', '0501224455', 'yasamal@inventory.az', 'Mirəli Qaşqay 148B');
+
+INSERT INTO taxes (name, rate)
+VALUES ('ƏDV', '18'),
+       ('Gömrük rüsumu', '20');
