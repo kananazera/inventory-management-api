@@ -15,3 +15,5 @@ alis ucun borc bitene kimi payment yaratmaq olsun
 alisin odenislerine baxmaq olsun
 tax secilibse tetbiq etmek
 elave xerc varsa purchase ucun tetbiq etmek
+paymentlerin siyahisi bolmesi fronta elave etmek
+inventory siyahisi bolmesi fronta elave etmek
