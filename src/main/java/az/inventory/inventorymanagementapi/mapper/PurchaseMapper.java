@@ -4,12 +4,15 @@ import az.inventory.inventorymanagementapi.dto.purchase.PurchaseCreateRequest;
 import az.inventory.inventorymanagementapi.dto.purchaseitem.PurchaseItemCreateRequest;
 import az.inventory.inventorymanagementapi.dto.purchase.PurchaseResponse;
 import az.inventory.inventorymanagementapi.dto.purchaseitem.PurchaseItemResponse;
+import az.inventory.inventorymanagementapi.entity.Payment;
 import az.inventory.inventorymanagementapi.entity.Purchase;
 import az.inventory.inventorymanagementapi.entity.PurchaseItem;
 import az.inventory.inventorymanagementapi.entity.Product;
+import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,7 @@ public class PurchaseMapper {
                                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 )
                 .paidAmount(request.getPaidAmount())
+                .status(request.getStatus() != null ? request.getStatus() : PurchaseStatus.PENDING)
                 .build();
 
         items.forEach(item -> item.setPurchase(purchase));
@@ -54,6 +58,12 @@ public class PurchaseMapper {
                 .map(PurchaseMapper::toResponse)
                 .collect(Collectors.toList());
 
+        Payment lastPayment = purchase.getPayments() == null || purchase.getPayments().isEmpty()
+                ? null
+                : purchase.getPayments().stream()
+                .max(Comparator.comparing(Payment::getPaymentDate))
+                .orElse(null);
+
         return PurchaseResponse.builder()
                 .id(purchase.getId())
                 .supplierId(purchase.getSupplier().getId())
@@ -61,6 +71,9 @@ public class PurchaseMapper {
                 .purchaseDate(purchase.getPurchaseDate())
                 .totalAmount(purchase.getTotalAmount())
                 .paidAmount(purchase.getPaidAmount())
+                .status(purchase.getStatus())
+                .paymentStatus(lastPayment != null ? lastPayment.getPaymentStatus() : null)
+                .paymentType(lastPayment != null ? lastPayment.getPaymentType() : null)
                 .items(items)
                 .build();
     }

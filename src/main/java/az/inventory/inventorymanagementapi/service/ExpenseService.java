@@ -1,14 +1,23 @@
 package az.inventory.inventorymanagementapi.service;
 
-import az.inventory.inventorymanagementapi.entity.Expense;
+import az.inventory.inventorymanagementapi.dto.expense.ExpenseCreateRequest;
+import az.inventory.inventorymanagementapi.dto.expense.ExpenseFilterRequest;
+import az.inventory.inventorymanagementapi.dto.expense.ExpenseResponse;
+import az.inventory.inventorymanagementapi.dto.expense.ExpenseUpdateRequest;
 
 import java.util.List;
 
 public interface ExpenseService {
 
-    Expense createExpense(Expense expense);
+    ExpenseResponse createExpense(ExpenseCreateRequest request);
 
-    List<Expense> getAllExpenses();
+    ExpenseResponse updateExpense(Long id, ExpenseUpdateRequest request);
 
-    void recordExpenses(List<Expense> expenses);
+    void deleteExpense(Long id);
+
+    ExpenseResponse getExpenseById(Long id);
+
+    List<ExpenseResponse> getAllExpenses();
+
+    List<ExpenseResponse> filterExpenses(ExpenseFilterRequest filterRequest);
 }

@@ -3,5 +3,6 @@ package az.inventory.inventorymanagementapi.enums;
 public enum PurchaseStatus {
     PENDING,
     COMPLETED,
-    CANCELLED
+    CANCELLED,
+    RETURNED
 }

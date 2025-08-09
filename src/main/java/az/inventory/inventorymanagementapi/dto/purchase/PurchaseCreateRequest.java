@@ -2,6 +2,9 @@ package az.inventory.inventorymanagementapi.dto.purchase;
 
 import az.inventory.inventorymanagementapi.dto.purchaseitem.PurchaseItemCreateRequest;
 import az.inventory.inventorymanagementapi.entity.Expense;
+import az.inventory.inventorymanagementapi.enums.PaymentStatus;
+import az.inventory.inventorymanagementapi.enums.PaymentType;
+import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -29,6 +32,7 @@ public class PurchaseCreateRequest {
     private List<PurchaseItemCreateRequest> items;
 
     private BigDecimal paidAmount;
+    private PaymentType paymentType;
 
-//    private List<Expense> expenses;
+    private PurchaseStatus status;
 }

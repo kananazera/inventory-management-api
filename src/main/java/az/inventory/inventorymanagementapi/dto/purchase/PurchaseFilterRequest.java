@@ -7,24 +7,22 @@ import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PurchaseResponse {
+public class PurchaseFilterRequest {
 
     private Long id;
     private Long supplierId;
     private Long warehouseId;
-    private BigDecimal totalAmount;
-    private BigDecimal paidAmount;
-    private LocalDateTime purchaseDate;
-    private List<PurchaseItemResponse> items;
+    private PurchaseStatus status;
+    private LocalDate purchaseDate;
     private PaymentStatus paymentStatus;
     private PaymentType paymentType;
-    private PurchaseStatus status;
+    private BigDecimal minTotalAmount;
+    private BigDecimal maxTotalAmount;
 }

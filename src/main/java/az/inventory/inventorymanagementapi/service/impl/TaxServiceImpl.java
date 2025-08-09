@@ -22,23 +22,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TaxServiceImpl implements TaxService {
 
-    private final TaxRepository productUnitRepository;
+    private final TaxRepository taxRepository;
 
     @Override
     public TaxResponse createTax(TaxCreateRequest request) {
-        if (productUnitRepository.existsByNameIgnoreCase(request.getName())) {
+        if (taxRepository.existsByNameIgnoreCase(request.getName())) {
             throw new RuntimeException("Tax name already exists");
         }
-        Tax Unit = TaxMapper.toEntity(request);
-        return TaxMapper.toResponse(productUnitRepository.save(Unit));
+        Tax tax = TaxMapper.toEntity(request);
+        return TaxMapper.toResponse(taxRepository.save(tax));
     }
 
     @Override
     public TaxResponse updateTax(Long id, TaxUpdateRequest request) {
-        Tax tax = productUnitRepository.findById(id)
+        Tax tax = taxRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tax not found with id: " + id));
 
-        if (productUnitRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
+        if (taxRepository.existsByNameIgnoreCaseAndIdNot(request.getName(), id)) {
             throw new RuntimeException("Tax name already exists");
         }
 
@@ -50,26 +50,26 @@ public class TaxServiceImpl implements TaxService {
             tax.setRate(request.getRate());
         }
 
-        return TaxMapper.toResponse(productUnitRepository.save(tax));
+        return TaxMapper.toResponse(taxRepository.save(tax));
     }
 
     @Override
     public void deleteTax(Long id) {
-        Tax Unit = productUnitRepository.findById(id)
+        Tax tax = taxRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tax not found with id: " + id));
-        productUnitRepository.delete(Unit);
+        taxRepository.delete(tax);
     }
 
     @Override
     public TaxResponse getTaxById(Long id) {
-        Tax Unit = productUnitRepository.findById(id)
+        Tax tax = taxRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("tax not found with id: " + id));
-        return TaxMapper.toResponse(Unit);
+        return TaxMapper.toResponse(tax);
     }
 
     @Override
     public List<TaxResponse> getAllTaxes() {
-        return productUnitRepository.findAll().stream()
+        return taxRepository.findAll().stream()
                 .map(TaxMapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -86,7 +86,7 @@ public class TaxServiceImpl implements TaxService {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
-        return productUnitRepository.findAll(spec).stream()
+        return taxRepository.findAll(spec).stream()
                 .map(TaxMapper::toResponse)
                 .collect(Collectors.toList());
     }

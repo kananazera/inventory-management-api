@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "expenses")
@@ -22,10 +22,9 @@ public class Expense {
     @Column(nullable = false)
     private String title;
 
-    private String description;
-
     @Column(nullable = false)
     private BigDecimal amount;
 
-    private LocalDateTime expenseDate;
+    @Column(nullable = false)
+    private LocalDate expenseDate;
 }

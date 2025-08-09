@@ -1,10 +1,7 @@
 package az.inventory.inventorymanagementapi.enums;
 
 public enum PaymentStatus {
-    PENDING,
     PAID,
     UNPAID,
     PARTIAL,
-    FAILED,
-    CANCELLED
 }

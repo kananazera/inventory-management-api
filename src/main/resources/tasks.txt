@@ -1,11 +1,17 @@
-purchase refunds
-sales
-sale refunds
-transactions
-user activity logs
-reports
-security refresh token
-security user has role
-email notification
-pagination
-language
+1. purchase refunds
+2. sales
+3. sale refunds
+4. invoice
+4. transactions
+5. user activity logs
+6. reports
+7. security refresh token
+8. security user has role
+9. email notification
+10. pagination
+11. language
+
+alis ucun borc bitene kimi payment yaratmaq olsun
+alisin odenislerine baxmaq olsun
+tax secilibse tetbiq etmek
+elave xerc varsa purchase ucun tetbiq etmek

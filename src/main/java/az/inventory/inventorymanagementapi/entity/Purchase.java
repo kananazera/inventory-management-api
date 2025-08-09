@@ -1,11 +1,14 @@
 package az.inventory.inventorymanagementapi.entity;
 
+import az.inventory.inventorymanagementapi.enums.PaymentType;
+import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "purchases")
@@ -34,6 +37,13 @@ public class Purchase {
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<PurchaseItem> items;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PurchaseStatus status;
+
+    @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Payment> payments;
 
     @Column(nullable = false)
     private LocalDateTime purchaseDate;

@@ -26,10 +26,6 @@ public class Inventory {
     @JoinColumn(name = "warehouse_id", nullable = false)
     private Warehouse warehouse;
 
-    private LocalDate manufactureDate;
-
-    private LocalDate expiryDate;
-
     @Column(nullable = false)
     private Integer quantity;
 }

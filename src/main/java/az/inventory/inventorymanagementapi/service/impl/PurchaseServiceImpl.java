@@ -1,21 +1,28 @@
 package az.inventory.inventorymanagementapi.service.impl;
 
 import az.inventory.inventorymanagementapi.dto.purchase.PurchaseCreateRequest;
+import az.inventory.inventorymanagementapi.dto.purchase.PurchaseFilterRequest;
 import az.inventory.inventorymanagementapi.dto.purchase.PurchaseResponse;
-import az.inventory.inventorymanagementapi.entity.Purchase;
-import az.inventory.inventorymanagementapi.entity.Supplier;
-import az.inventory.inventorymanagementapi.entity.Warehouse;
+import az.inventory.inventorymanagementapi.entity.*;
+import az.inventory.inventorymanagementapi.enums.PaymentStatus;
+import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import az.inventory.inventorymanagementapi.exception.ResourceNotFoundException;
 import az.inventory.inventorymanagementapi.mapper.PurchaseMapper;
-import az.inventory.inventorymanagementapi.repository.ProductRepository;
-import az.inventory.inventorymanagementapi.repository.PurchaseRepository;
-import az.inventory.inventorymanagementapi.repository.SupplierRepository;
-import az.inventory.inventorymanagementapi.repository.WarehouseRepository;
-import az.inventory.inventorymanagementapi.service.*;
+import az.inventory.inventorymanagementapi.repository.*;
+import az.inventory.inventorymanagementapi.service.InventoryService;
+import az.inventory.inventorymanagementapi.service.PurchaseService;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +34,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final SupplierRepository supplierRepository;
     private final WarehouseRepository warehouseRepository;
     private final ProductRepository productRepository;
-
-    // private final InventoryRepository inventoryRepository;
-    // private final ExpenseRepository expenseRepository;
-    // private final TaxRepository taxRepository;
-    // private final PaymentRepository paymentRepository;
-    // private final InvoiceRepository invoiceRepository;
-    // private final TransactionRepository transactionRepository;
+    private final PaymentRepository paymentRepository;
+    private final InventoryService inventoryService;
 
     @Override
     @Transactional
@@ -59,33 +61,108 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         Purchase savedPurchase = purchaseRepository.save(purchase);
 
-        // eger statusu OK dirse
+        BigDecimal paidAmount = request.getPaidAmount() != null ? request.getPaidAmount() : BigDecimal.ZERO;
 
-        // inventory yazmaq
-        // expense varsa toplam meblege yazmaq
-        // tax varsa toplam meblege yazmaq
-        // payment varsa yazmaq
-        // invoice yazmaq
-        // transaction yazmaq
+        if (paidAmount.compareTo(BigDecimal.ZERO) > 0) {
+            if (request.getPaymentType() == null) {
+                throw new IllegalArgumentException("Payment type must be provided when paid amount is greater than zero");
+            }
 
-        // alislari filter elemek yazmaq.
-        // eger varsa borcdan odemek tam ve ya hisseli, (purchase update etmek qaliq borcu.) (payments table dan purchase id ye gore butun odenislere baxmaq)
-        // alisin statuslari
-        // alisi geri qaytarmaq (mueyyen prosesler gedecek mal qaligi azalmali ve s.)
+            BigDecimal totalAmount = savedPurchase.getTotalAmount();
 
-        // odenilen meblegin deyeri 0 yox placeholder 0 olsun
-        // mehsul secenden sonra vahid qiymet mehsulun enpointinden gelsin amma deyismek olsun
+            if (paidAmount.compareTo(totalAmount) > 0) {
+                throw new IllegalArgumentException("Paid amount cannot be greater than total amount");
+            }
 
-        // inventory bolmesi elave etmek
-        // payments bolmesi elave etmek
-        // invoice bolmesi elave etmek
-        // expense bolmesi elave etmek
-        // odenis meblegi toplam meblegden coxdursa exception atsin
-        // odenis meblegi 0 dan kicikdirse exception atsin
+            PaymentStatus status;
+            if (paidAmount.compareTo(totalAmount) == 0) {
+                status = PaymentStatus.PAID;
+            } else {
+                status = PaymentStatus.PARTIAL;
+            }
 
-        // sonda butun bu emeliyyatalr @transactional ile aparilsin
+            Payment payment = Payment.builder()
+                    .purchase(savedPurchase)
+                    .amount(paidAmount)
+                    .paymentType(request.getPaymentType())
+                    .paymentStatus(status)
+                    .paymentDate(LocalDateTime.now())
+                    .build();
+
+            paymentRepository.save(payment);
+        }
+
+        if (purchase.getStatus() == PurchaseStatus.COMPLETED) {
+            inventoryService.increaseStock(purchase);
+        }
 
         return PurchaseMapper.toResponse(savedPurchase);
+    }
+
+    @Override
+    public void updateStatus(Long purchaseId, PurchaseStatus status) {
+        Purchase purchase = purchaseRepository.findById(purchaseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase not found: " + purchaseId));
+
+        purchase.setStatus(status);
+        purchaseRepository.save(purchase);
+
+        if (status == PurchaseStatus.COMPLETED) {
+            inventoryService.increaseStock(purchase);
+        }
+    }
+
+    @Override
+    public List<PurchaseResponse> filterPurchases(PurchaseFilterRequest filterRequest) {
+        Specification<Purchase> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (filterRequest.getId() != null) {
+                predicates.add(cb.equal(root.get("id"), filterRequest.getId()));
+            }
+            if (filterRequest.getSupplierId() != null) {
+                predicates.add(cb.equal(root.get("supplier").get("id"), filterRequest.getSupplierId()));
+            }
+            if (filterRequest.getWarehouseId() != null) {
+                predicates.add(cb.equal(root.get("warehouse").get("id"), filterRequest.getWarehouseId()));
+            }
+            if (filterRequest.getStatus() != null) {
+                predicates.add(cb.equal(root.get("status"), filterRequest.getStatus()));
+            }
+
+            if (filterRequest.getPurchaseDate() != null) {
+                LocalDate filterDate = filterRequest.getPurchaseDate();
+                LocalDateTime startOfDay = filterDate.atStartOfDay();
+                LocalDateTime endOfDay = filterDate.atTime(23, 59, 59, 999999999);
+                predicates.add(cb.between(root.get("purchaseDate"), startOfDay, endOfDay));
+            }
+
+            if (filterRequest.getMinTotalAmount() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("totalAmount"), filterRequest.getMinTotalAmount()));
+            }
+            if (filterRequest.getMaxTotalAmount() != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("totalAmount"), filterRequest.getMaxTotalAmount()));
+            }
+
+            if (filterRequest.getPaymentStatus() != null || filterRequest.getPaymentType() != null) {
+                Join<Purchase, Payment> paymentJoin = root.join("payments", JoinType.LEFT);
+
+                if (filterRequest.getPaymentStatus() != null) {
+                    predicates.add(cb.equal(paymentJoin.get("paymentStatus"), filterRequest.getPaymentStatus()));
+                }
+                if (filterRequest.getPaymentType() != null) {
+                    predicates.add(cb.equal(paymentJoin.get("paymentType"), filterRequest.getPaymentType()));
+                }
+
+                query.distinct(true);
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return purchaseRepository.findAll(spec).stream()
+                .map(PurchaseMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

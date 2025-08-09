@@ -22,12 +22,8 @@ public class Payment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "purchase_i  d")
+    @JoinColumn(name = "purchase_id", nullable = false)
     private Purchase purchase;
-
-    @ManyToOne
-    @JoinColumn(name = "sale_id")
-    private Sale sale;
 
     @Column(nullable = false)
     private BigDecimal amount;
@@ -42,8 +38,4 @@ public class Payment {
 
     @Column(nullable = false)
     private LocalDateTime paymentDate;
-
-    @ManyToOne
-    @JoinColumn(name = "invoice_id", nullable = false)
-    private Invoice invoice;
 }
