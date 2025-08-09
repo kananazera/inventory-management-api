@@ -1,12 +1,11 @@
 package az.inventory.inventorymanagementapi.entity;
 
-import az.inventory.inventorymanagementapi.enums.PaymentType;
 import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -46,5 +45,5 @@ public class Purchase {
     private Set<Payment> payments;
 
     @Column(nullable = false)
-    private LocalDateTime purchaseDate;
+    private LocalDate purchaseDate;
 }

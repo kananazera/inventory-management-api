@@ -45,11 +45,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserResponse>> getAll() {
-        List<UserResponse> list = userService.getAllUsers();
-        return ResponseEntity.ok(list);
-    }
+    // filteri isteifde etmek
+//    @GetMapping
+//    public ResponseEntity<List<UserResponse>> getAll() {
+//        List<UserResponse> list = userService.getAllUsers();
+//        return ResponseEntity.ok(list);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getById(@PathVariable Long id) {

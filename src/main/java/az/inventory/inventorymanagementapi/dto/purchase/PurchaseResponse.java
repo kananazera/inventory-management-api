@@ -7,7 +7,7 @@ import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -22,7 +22,7 @@ public class PurchaseResponse {
     private Long warehouseId;
     private BigDecimal totalAmount;
     private BigDecimal paidAmount;
-    private LocalDateTime purchaseDate;
+    private LocalDate purchaseDate;
     private List<PurchaseItemResponse> items;
     private PaymentStatus paymentStatus;
     private PaymentType paymentType;

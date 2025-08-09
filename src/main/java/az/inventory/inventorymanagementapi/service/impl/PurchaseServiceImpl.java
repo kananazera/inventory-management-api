@@ -37,6 +37,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final PaymentRepository paymentRepository;
     private final InventoryService inventoryService;
 
+    //service cagirmaq
+
     @Override
     @Transactional
     public PurchaseResponse createPurchase(PurchaseCreateRequest request) {

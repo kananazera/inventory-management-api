@@ -1,15 +1,13 @@
 package az.inventory.inventorymanagementapi.dto.purchase;
 
 import az.inventory.inventorymanagementapi.dto.purchaseitem.PurchaseItemCreateRequest;
-import az.inventory.inventorymanagementapi.entity.Expense;
-import az.inventory.inventorymanagementapi.enums.PaymentStatus;
 import az.inventory.inventorymanagementapi.enums.PaymentType;
 import az.inventory.inventorymanagementapi.enums.PurchaseStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -26,7 +24,7 @@ public class PurchaseCreateRequest {
     private Long warehouseId;
 
     @NotNull(message = "Purchase date cannot be null")
-    private LocalDateTime purchaseDate;
+    private LocalDate purchaseDate;
 
     @NotEmpty(message = "Purchase items cannot be empty")
     private List<PurchaseItemCreateRequest> items;
